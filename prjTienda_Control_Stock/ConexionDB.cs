@@ -45,38 +45,150 @@ namespace prjTienda_Control_Stock
             }
         }
 
-        public void buscarProd(string prod, DataGridView dgv)
+        public void buscarProd(string tipoBusqueda, string prod, DataGridView dgv)
         {
             
             try
             {
                 if(prod != string.Empty)
                 {
-                    conexion = new OleDbConnection(CadenaConexion);
-                    comando = new OleDbCommand();
+                    if (controlDeArticulo(tipoBusqueda,prod))
+                    {
+                        conexion = new OleDbConnection(CadenaConexion);
+                        comando = new OleDbCommand();
 
-                    comando.Connection = conexion;
-                    comando.CommandType = CommandType.Text;
-                    
+                        comando.Connection = conexion;
+                        comando.CommandType = CommandType.Text;
 
-                    comando.CommandText = $"SELECT * FROM Productos WHERE id='{prod}' OR categoria = '{prod}' OR nombre = '{prod}';";
+                        comando.CommandText = $"SELECT * FROM Productos WHERE {tipoBusqueda} = {prod}";
 
-                    DataTable dt = new DataTable();
+                        DataTable dt = new DataTable();
 
-                    adaptador = new OleDbDataAdapter(comando);
-                    adaptador.Fill(dt);
-                    dgv.DataSource = dt;
-                    
+                        adaptador = new OleDbDataAdapter(comando);
+                        adaptador.Fill(dt);
+                        dgv.DataSource = dt;
+                    }
                 }
-                
+                else
+                {
+                    MessageBox.Show("El articulo no se encuentra \n " +
+                        "en la base de datos","Aviso",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message );
             }
+            //finally
+            //{
+            //    if(conexion.State == ConnectionState.Open)
+            //    {
+            //        conexion.Close();
+
+            //    }
+            //}
+        }
+        private bool controlDeArticulo(string tipoBusqueda,string prod)
+        {
+            bool res = false;
+            try
+            {
+                conexion = new OleDbConnection(CadenaConexion);
+                if (conexion.State != ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+                comando = new OleDbCommand($"SELECT * FROM Productos Where {tipoBusqueda} = {prod}");
+                int conteo = (int)comando.ExecuteScalar();
+                if( conteo > 0 )
+                {
+                    res = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             finally
             {
                 conexion.Close();
+            }
+            return res;
+        }
+        public bool controlStock(DataGridView dgv)
+        {
+            bool res = false;
+            try
+            {
+                conexion = new OleDbConnection(CadenaConexion);
+                if (conexion.State != ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+                comando = new OleDbCommand();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.Text;
+
+                comando.CommandText = $"SELECT * FROM Productos WHERE stock < 10";
+
+                DataTable dt = new DataTable();
+
+                adaptador = new OleDbDataAdapter(comando);
+                adaptador.Fill(dt);
+                dgv.DataSource = dt;
+                if (dt.Rows.Count > 0) 
+                {
+                    res = true;
+                }                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return res;
+        }
+
+        public void mostrarStock(DataGridView dgv)
+        {
+            try
+            {
+                conexion = new OleDbConnection(CadenaConexion);
+                if (conexion.State != ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+                comando = new OleDbCommand();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.Text;
+
+                comando.CommandText = $"SELECT * FROM Productos";
+
+                DataTable dt = new DataTable();
+
+                adaptador = new OleDbDataAdapter(comando);
+                adaptador.Fill(dt);
+                dgv.DataSource = dt;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
             }
         }
     }
