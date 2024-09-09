@@ -36,9 +36,9 @@
             this.radCategoria = new System.Windows.Forms.RadioButton();
             this.gbBusqueda = new System.Windows.Forms.GroupBox();
             this.gbModificar = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtProdModificar = new System.Windows.Forms.TextBox();
             this.numCantProd = new System.Windows.Forms.NumericUpDown();
+            this.txtProdModificar = new System.Windows.Forms.TextBox();
+            this.btnModificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.gbBusqueda.SuspendLayout();
             this.gbModificar.SuspendLayout();
@@ -53,6 +53,7 @@
             this.dgvProductos.Name = "dgvProductos";
             this.dgvProductos.Size = new System.Drawing.Size(775, 347);
             this.dgvProductos.TabIndex = 9;
+            this.dgvProductos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductos_CellClick);
             // 
             // txtBusqueda
             // 
@@ -126,7 +127,7 @@
             // 
             this.gbModificar.Controls.Add(this.numCantProd);
             this.gbModificar.Controls.Add(this.txtProdModificar);
-            this.gbModificar.Controls.Add(this.button1);
+            this.gbModificar.Controls.Add(this.btnModificar);
             this.gbModificar.Location = new System.Drawing.Point(353, 12);
             this.gbModificar.Name = "gbModificar";
             this.gbModificar.Size = new System.Drawing.Size(435, 73);
@@ -134,28 +135,30 @@
             this.gbModificar.TabStop = false;
             this.gbModificar.Text = "Modificar Stock del Producto";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(363, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(66, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Cambiar";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // txtProdModificar
-            // 
-            this.txtProdModificar.Location = new System.Drawing.Point(7, 18);
-            this.txtProdModificar.Name = "txtProdModificar";
-            this.txtProdModificar.Size = new System.Drawing.Size(187, 20);
-            this.txtProdModificar.TabIndex = 1;
-            // 
             // numCantProd
             // 
             this.numCantProd.Location = new System.Drawing.Point(7, 45);
             this.numCantProd.Name = "numCantProd";
             this.numCantProd.Size = new System.Drawing.Size(120, 20);
             this.numCantProd.TabIndex = 2;
+            // 
+            // txtProdModificar
+            // 
+            this.txtProdModificar.Enabled = false;
+            this.txtProdModificar.Location = new System.Drawing.Point(7, 18);
+            this.txtProdModificar.Name = "txtProdModificar";
+            this.txtProdModificar.Size = new System.Drawing.Size(187, 20);
+            this.txtProdModificar.TabIndex = 1;
+            // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(327, 44);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(102, 23);
+            this.btnModificar.TabIndex = 0;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // FrmBusqueda
             // 
@@ -186,7 +189,7 @@
         private System.Windows.Forms.RadioButton radCategoria;
         private System.Windows.Forms.GroupBox gbBusqueda;
         private System.Windows.Forms.GroupBox gbModificar;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.NumericUpDown numCantProd;
         private System.Windows.Forms.TextBox txtProdModificar;
     }

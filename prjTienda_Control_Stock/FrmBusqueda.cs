@@ -18,20 +18,21 @@ namespace prjTienda_Control_Stock
             valoresPorDefecto();
         }
 
-        string tipoProducto = string.Empty;
-
-
+        string tipoBusqueda = string.Empty;
+        string nombreProd = string.Empty;
+        int cantProd = 0;
 
         private void btnBuscarProd_Click(object sender, EventArgs e)
         {
             string prod = (txtBusqueda.Text);
             prod = prod.Trim();
-            if (radNombre.Checked)
+            if (radNombre.Checked || radCategoria.Checked)
             {
-                prod = ("'"+prod+"'");
+                prod = ("'"+prod+"'"); 
             }
             ConexionDB db = new ConexionDB();
-            db.buscarProd(tipoProducto,prod, dgvProductos);
+            db.buscarProd(tipoBusqueda,prod, dgvProductos);
+            valorDefectoDGV();
         }
 
 
@@ -41,7 +42,7 @@ namespace prjTienda_Control_Stock
         {
             if(radID.Checked)
             {
-                tipoProducto = "id";
+                tipoBusqueda = "id";
                 limpiarTxt();
             }
         }
@@ -50,7 +51,7 @@ namespace prjTienda_Control_Stock
         {
             if(radNombre.Checked)
             {
-                tipoProducto = "nombre";
+                tipoBusqueda = "nombre";
                 limpiarTxt();
             }
         }
@@ -59,7 +60,7 @@ namespace prjTienda_Control_Stock
         {
             if (radCategoria.Checked)
             {
-                tipoProducto = "categoria";
+                tipoBusqueda = "categoria";
                 limpiarTxt();
             }
         }
@@ -84,7 +85,38 @@ namespace prjTienda_Control_Stock
         }
         private void valorDefectoDGV()
         {
+            dgvProductos.Enabled = true;
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        }
+
+        private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex >= 0 &&  e.ColumnIndex >= 0)
+            {
+                DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
+                nombreProd = row.Cells[1].Value.ToString();
+                cantProd = Convert.ToInt16( row.Cells[4].Value.ToString());
+                //MessageBox.Show("El valor de la celda seleccionada es: " + nombreProd+ "\n La cantidad de la celda seleccionada es: "+cantProd);
+                txtProdModificar.Text = nombreProd;
+                numCantProd.Value = cantProd;
+            }
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("¿Desea aplicar los cambios?", "Aviso", MessageBoxButtons.OKCancel);
+            if(res == DialogResult.OK)
+            {
+                ConexionDB db = new ConexionDB();
+                MessageBox.Show(db.modificarStock(nombreProd, cantProd));
+                
+            }
+            else
+            {
+                MessageBox.Show("Se devolvieron los valores originales del producto seleccionado", "Aviso", MessageBoxButtons.OK);
+                txtProdModificar.Text = nombreProd;
+                numCantProd.Value = cantProd;
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace prjTienda_Control_Stock
         public ConexionDB()
         {
             //CadenaConexion = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=./Stock.accdb";
-            CadenaConexion = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=./Stock.accdb";
+            CadenaConexion = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=./../../../Stock.accdb";
         }
         public void test()
         {
@@ -79,14 +79,14 @@ namespace prjTienda_Control_Stock
             {
                 MessageBox.Show(ex.Message );
             }
-            //finally
-            //{
-            //    if(conexion.State == ConnectionState.Open)
-            //    {
-            //        conexion.Close();
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
 
-            //    }
-            //}
+                }
+            }
         }
         private bool controlDeArticulo(string tipoBusqueda,string prod)
         {
@@ -94,13 +94,14 @@ namespace prjTienda_Control_Stock
             try
             {
                 conexion = new OleDbConnection(CadenaConexion);
+                
                 if (conexion.State != ConnectionState.Open)
                 {
                     conexion.Open();
                 }
-                comando = new OleDbCommand($"SELECT * FROM Productos Where {tipoBusqueda} = {prod}");
-                int conteo = (int)comando.ExecuteScalar();
-                if( conteo > 0 )
+                comando = new OleDbCommand($"SELECT COUNT(*) FROM Productos WHERE {tipoBusqueda} = {prod}",conexion);
+                int conteo = (int)comando?.ExecuteScalar();
+                if ( conteo > 0 )
                 {
                     res = true;
                 }
@@ -190,6 +191,46 @@ namespace prjTienda_Control_Stock
                     conexion.Close();
                 }
             }
+        }
+        public string modificarStock(string nombreProd, int cantProd)
+        {
+            string mensaje = string.Empty;
+            try
+            {
+                using (conexion = new OleDbConnection(CadenaConexion))
+                {
+                    if(conexion.State != ConnectionState.Open)
+                    {
+                        conexion.Open();
+                    }
+                    string query = $"UPDATE Productos SET stock = {cantProd} WHERE nombre = '{nombreProd}';";
+                    using(comando = new OleDbCommand(query, conexion))
+                    {
+                        int filasAfectadas = comando.ExecuteNonQuery();
+                        if(filasAfectadas > 0)
+                        {
+                            mensaje = "Se actualizó el registro correctamente.";
+                        }
+                        else
+                        {
+                            mensaje = "No se encontró ningún registro para actualizar.";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if(conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return mensaje;
         }
     }
 }
