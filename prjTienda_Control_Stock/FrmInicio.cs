@@ -30,7 +30,7 @@ namespace prjTienda_Control_Stock
 
         private void btnFrmModificaciones_Click(object sender, EventArgs e)
         {
-            FrmMoficiarProd nuevoFrm = new FrmMoficiarProd();
+            frmArticulos nuevoFrm = new frmArticulos();
             nuevoFrm.ShowDialog();
             controlStock();
         }

@@ -36,8 +36,6 @@ namespace prjTienda_Control_Stock
         }
 
 
-
-
         private void radID_CheckedChanged(object sender, EventArgs e)
         {
             if(radID.Checked)
@@ -96,6 +94,7 @@ namespace prjTienda_Control_Stock
                 DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
                 nombreProd = row.Cells[1].Value.ToString();
                 cantProd = Convert.ToInt16( row.Cells[4].Value.ToString());
+                //Test de la funcion
                 //MessageBox.Show("El valor de la celda seleccionada es: " + nombreProd+ "\n La cantidad de la celda seleccionada es: "+cantProd);
                 txtProdModificar.Text = nombreProd;
                 numCantProd.Value = cantProd;
@@ -108,6 +107,7 @@ namespace prjTienda_Control_Stock
             if(res == DialogResult.OK)
             {
                 ConexionDB db = new ConexionDB();
+                nombreProd = "'"+ nombreProd+ "'";
                 MessageBox.Show(db.modificarStock(nombreProd, cantProd));
                 
             }

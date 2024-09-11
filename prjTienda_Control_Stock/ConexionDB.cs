@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.OleDb;
 using System.Data;
 using System.Windows.Forms;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace prjTienda_Control_Stock
 {
@@ -203,18 +204,25 @@ namespace prjTienda_Control_Stock
                     {
                         conexion.Open();
                     }
-                    string query = $"UPDATE Productos SET stock = {cantProd} WHERE nombre = '{nombreProd}';";
-                    using(comando = new OleDbCommand(query, conexion))
+                    comando = new OleDbCommand();
+                    string query = $"UPDATE Productos SET stock = {cantProd} WHERE nombre = {nombreProd}";
+                    
+
+                    comando.Connection = conexion;
+                    comando.CommandText = query;
+
+                    adaptador = new OleDbDataAdapter(comando);
+                    
+                    
+                    int filasAfectadas = comando.ExecuteNonQuery();
+
+                    if (filasAfectadas > 0)
                     {
-                        int filasAfectadas = comando.ExecuteNonQuery();
-                        if(filasAfectadas > 0)
-                        {
-                            mensaje = "Se actualizó el registro correctamente.";
-                        }
-                        else
-                        {
-                            mensaje = "No se encontró ningún registro para actualizar.";
-                        }
+                        mensaje = "Se actualizó el registro correctamente.";
+                    }
+                    else
+                    {
+                        mensaje = "No se encontró ningún registro para actualizar.";
                     }
                 }
 
@@ -231,6 +239,110 @@ namespace prjTienda_Control_Stock
                 }
             }
             return mensaje;
+        }
+
+        public Articulo cargarArticulo (int codigo)
+        {
+            Articulo articulo = new Articulo();
+            try
+            {
+                int registros = cantidadDeRegistros();
+                if(codigo>0 && codigo <= registros)
+                {
+                    using (conexion = new OleDbConnection(CadenaConexion))
+                    {
+                        if (conexion.State != ConnectionState.Open)
+                        {
+                            conexion.Open();
+                        }
+                        string query = $"SELECT * FROM Productos WHERE id = {codigo}";
+                        using(comando = new OleDbCommand(query, conexion))
+                        {
+                            using (OleDbDataReader lector = comando.ExecuteReader())
+                            {
+
+                                if (lector.Read())
+                                {
+                                    articulo.id = !lector.IsDBNull(0) ? lector.GetInt32(0) : 0; // Asumiendo que id es un entero.
+                                    articulo.nombre = !lector.IsDBNull(1) ? lector.GetString(1) : string.Empty;
+                                    articulo.descripcion = !lector.IsDBNull(2) ? lector.GetString(2) : string.Empty;
+                                    articulo.precio = !lector.IsDBNull(3) ? lector.GetDouble(3) : 0.0; // Asegúrate de que precio sea un tipo numérico.
+                                    articulo.cantidad = !lector.IsDBNull(4) ? lector.GetInt32(4) : 0;
+                                    articulo.categoria = !lector.IsDBNull(5) ? lector.GetString(5) : string.Empty;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return articulo;
+        }
+        public int cantidadDeRegistros()
+        {
+            int conteo = 0;
+            using (conexion = new OleDbConnection(CadenaConexion))
+            {
+                if (conexion.State != ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+                string query = $"SELECT COUNT(*) FROM Productos";
+                using (comando = new OleDbCommand(query, conexion))
+                {
+                    object resultado = comando.ExecuteScalar();
+                    if(resultado != DBNull.Value)
+                    {
+                        conteo = Convert.ToInt16(resultado);
+                    }
+                }
+            }
+            return conteo;
+        }
+
+        public void agregarArticulo(Articulo articulo)
+        {
+            try
+            {
+                using (conexion = new OleDbConnection(CadenaConexion))
+                {
+                    if(conexion.State != ConnectionState.Open)
+                    {
+                        conexion.Open();
+                    }
+                    
+                    string query = "INSERT INTO Productos (nombre, descripcion, precio, stock, categoria) VALUES (@nombre, @descripcion, @precio, @stock, @categoria)";
+                    using (comando = new OleDbCommand(query, conexion))
+                    {
+
+                        comando.Parameters.AddWithValue("@nombre", "'"+articulo.nombre+"'");
+                        comando.Parameters.AddWithValue("@descripcion", articulo.descripcion);
+                        comando.Parameters.AddWithValue("@precio", articulo.precio);
+                        comando.Parameters.AddWithValue("@stock",articulo.cantidad);
+                        comando.Parameters.AddWithValue("@categoria", articulo.categoria);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+
+                        if (filasAfectadas > 0)
+                        {
+                            MessageBox.Show("Registro insertado correctamente.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo insertar el registro.");
+                        }
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

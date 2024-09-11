@@ -32,7 +32,7 @@
             this.btnTest = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.btnFrmStock = new System.Windows.Forms.Button();
-            this.btnFrmModificaciones = new System.Windows.Forms.Button();
+            this.btnFrmArticulos = new System.Windows.Forms.Button();
             this.btnFrmBusqueda = new System.Windows.Forms.Button();
             this.gbAvisoStock = new System.Windows.Forms.GroupBox();
             this.dgvAvisoStock = new System.Windows.Forms.DataGridView();
@@ -47,7 +47,7 @@
             this.panel1.Controls.Add(this.btnTest);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.btnFrmStock);
-            this.panel1.Controls.Add(this.btnFrmModificaciones);
+            this.panel1.Controls.Add(this.btnFrmArticulos);
             this.panel1.Controls.Add(this.btnFrmBusqueda);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -85,15 +85,15 @@
             this.btnFrmStock.UseVisualStyleBackColor = true;
             this.btnFrmStock.Click += new System.EventHandler(this.btnFrmStock_Click);
             // 
-            // btnFrmModificaciones
+            // btnFrmArticulos
             // 
-            this.btnFrmModificaciones.Location = new System.Drawing.Point(84, 2);
-            this.btnFrmModificaciones.Name = "btnFrmModificaciones";
-            this.btnFrmModificaciones.Size = new System.Drawing.Size(75, 23);
-            this.btnFrmModificaciones.TabIndex = 1;
-            this.btnFrmModificaciones.Text = "Modificar";
-            this.btnFrmModificaciones.UseVisualStyleBackColor = true;
-            this.btnFrmModificaciones.Click += new System.EventHandler(this.btnFrmModificaciones_Click);
+            this.btnFrmArticulos.Location = new System.Drawing.Point(84, 2);
+            this.btnFrmArticulos.Name = "btnFrmArticulos";
+            this.btnFrmArticulos.Size = new System.Drawing.Size(75, 23);
+            this.btnFrmArticulos.TabIndex = 1;
+            this.btnFrmArticulos.Text = "Articulos";
+            this.btnFrmArticulos.UseVisualStyleBackColor = true;
+            this.btnFrmArticulos.Click += new System.EventHandler(this.btnFrmModificaciones_Click);
             // 
             // btnFrmBusqueda
             // 
@@ -144,7 +144,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnFrmStock;
-        private System.Windows.Forms.Button btnFrmModificaciones;
+        private System.Windows.Forms.Button btnFrmArticulos;
         private System.Windows.Forms.Button btnFrmBusqueda;
         private System.Windows.Forms.GroupBox gbAvisoStock;
         private System.Windows.Forms.DataGridView dgvAvisoStock;

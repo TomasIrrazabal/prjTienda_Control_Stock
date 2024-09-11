@@ -62,24 +62,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Articulo.cs" />
     <Compile Include="ConexionDB.cs" />
+    <Compile Include="frmArticulos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmArticulos.Designer.cs">
+      <DependentUpon>frmArticulos.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmBusqueda.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmBusqueda.Designer.cs">
       <DependentUpon>FrmBusqueda.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCargarNuevoArticulo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCargarNuevoArticulo.Designer.cs">
+      <DependentUpon>frmCargarNuevoArticulo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmInicio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmInicio.Designer.cs">
       <DependentUpon>FrmInicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmMoficiarProd.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmMoficiarProd.Designer.cs">
-      <DependentUpon>FrmMoficiarProd.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmMuestraStock.cs">
       <SubType>Form</SubType>
@@ -89,8 +96,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmArticulos.resx">
+      <DependentUpon>frmArticulos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmBusqueda.resx">
       <DependentUpon>FrmBusqueda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCargarNuevoArticulo.resx">
+      <DependentUpon>frmCargarNuevoArticulo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmInicio.resx">
       <DependentUpon>FrmInicio.cs</DependentUpon>
