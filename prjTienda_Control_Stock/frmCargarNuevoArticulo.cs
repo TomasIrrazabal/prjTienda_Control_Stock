@@ -116,5 +116,10 @@ namespace prjTienda_Control_Stock
             }
             return res;
         }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

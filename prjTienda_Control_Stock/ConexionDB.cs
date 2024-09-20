@@ -22,7 +22,7 @@ namespace prjTienda_Control_Stock
         public ConexionDB()
         {
             //CadenaConexion = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=./Stock.accdb";
-            CadenaConexion = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=./../../../Stock.accdb";
+            CadenaConexion = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=./../../BASE_DATOS/Stock.accdb";
         }
         public void test()
         {

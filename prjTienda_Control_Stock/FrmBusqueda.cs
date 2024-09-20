@@ -19,9 +19,8 @@ namespace prjTienda_Control_Stock
         }
 
         string tipoBusqueda = string.Empty;
-        string nombreProd = string.Empty;
-        int cantProd = 0;
-
+        Articulo artAux = new Articulo();
+        
         private void btnBuscarProd_Click(object sender, EventArgs e)
         {
             string prod = (txtBusqueda.Text);
@@ -38,29 +37,36 @@ namespace prjTienda_Control_Stock
 
         private void radID_CheckedChanged(object sender, EventArgs e)
         {
-            if(radID.Checked)
-            {
-                tipoBusqueda = "id";
-                limpiarTxt();
-            }
+            presetearTipoBusqueda(tipoBusqueda);
         }
 
         private void radNombre_CheckedChanged(object sender, EventArgs e)
         {
-            if(radNombre.Checked)
-            {
-                tipoBusqueda = "nombre";
-                limpiarTxt();
-            }
+            presetearTipoBusqueda(tipoBusqueda);
         }
 
         private void radCategoria_CheckedChanged(object sender, EventArgs e)
         {
+            presetearTipoBusqueda(tipoBusqueda);
+        }
+        public string presetearTipoBusqueda(string busqueda)
+        {
+            if (radID.Checked)
+            {
+                tipoBusqueda = "id";
+                limpiarTxt();
+            }
             if (radCategoria.Checked)
             {
                 tipoBusqueda = "categoria";
                 limpiarTxt();
             }
+            if (radNombre.Checked)
+            {
+                tipoBusqueda = "nombre";
+                limpiarTxt();
+            }
+            return busqueda;
         }
         private void limpiarTxt()
         {
@@ -91,13 +97,18 @@ namespace prjTienda_Control_Stock
         {
             if(e.RowIndex >= 0 &&  e.ColumnIndex >= 0)
             {
+                
                 DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
-                nombreProd = row.Cells[1].Value.ToString();
-                cantProd = Convert.ToInt16( row.Cells[4].Value.ToString());
-                //Test de la funcion
-                //MessageBox.Show("El valor de la celda seleccionada es: " + nombreProd+ "\n La cantidad de la celda seleccionada es: "+cantProd);
-                txtProdModificar.Text = nombreProd;
-                numCantProd.Value = cantProd;
+                artAux.id = Convert.ToInt16(row.Cells[0].Value.ToString());
+                artAux.nombre = row.Cells[1].Value.ToString();
+                artAux.nombre = "'" + artAux.nombre + "'";
+                artAux.descripcion = row.Cells[2].Value.ToString();
+                artAux.precio = double.Parse(row.Cells[3].Value.ToString());
+                artAux.cantidad = Convert.ToInt16(row.Cells[4].Value.ToString());
+                artAux.categoria = row.Cells[1].Value.ToString();
+                
+                numCantProd.Value =artAux.cantidad;
+                txtProdModificar.Text = artAux.nombre;
             }
         }
 
@@ -107,15 +118,14 @@ namespace prjTienda_Control_Stock
             if(res == DialogResult.OK)
             {
                 ConexionDB db = new ConexionDB();
-                nombreProd = "'"+ nombreProd+ "'";
-                MessageBox.Show(db.modificarStock(nombreProd, cantProd));
-                
+                MessageBox.Show(db.modificarStock(artAux.nombre, int.Parse(numCantProd.Value.ToString())));
+                db.buscarProd(tipoBusqueda, artAux.id.ToString(), dgvProductos);
             }
             else
             {
                 MessageBox.Show("Se devolvieron los valores originales del producto seleccionado", "Aviso", MessageBoxButtons.OK);
-                txtProdModificar.Text = nombreProd;
-                numCantProd.Value = cantProd;
+                txtProdModificar.Text = artAux.nombre;
+                numCantProd.Value = artAux.cantidad;
             }
         }
     }
