@@ -71,15 +71,15 @@ namespace prjTienda_Control_Stock
         }
         private void btnArticuloAnterior_Click(object sender, EventArgs e)
         {
-            int siguiente = articuloActual - 1;
-            mostrarArticulo(siguiente);
+            int anterior = articuloActual - 1;
+            mostrarArticulo(anterior);
             controlCodigo();
         }
 
         private void btnArticuloSiguiente_Click(object sender, EventArgs e)
         {
-            int anterior = articuloActual + 1;
-            mostrarArticulo(anterior);
+            int siguiente = articuloActual + 1;
+            mostrarArticulo(siguiente);
             controlCodigo();
         }
         private void controlCodigo()
@@ -101,11 +101,11 @@ namespace prjTienda_Control_Stock
                 btnArticuloSiguiente.Enabled= true;
             }
         }
-        public void actualizarMaxRegistros()
-        {
-            ConexionDB db = new ConexionDB();
-            maxRegistro = db.cantidadDeRegistros();
-        }
+        //public void actualizarMaxRegistros()
+        //{
+        //    ConexionDB db = new ConexionDB();
+        //    maxRegistro = db.cantidadDeRegistros();
+        //}
         private void txtCodigo_TextChaged(object sender, EventArgs e)
         {
             int min = 1;
@@ -153,7 +153,7 @@ namespace prjTienda_Control_Stock
         {
             frmCargarNuevoArticulo frm = new frmCargarNuevoArticulo();
             frm.ShowDialog();
-            actualizarMaxRegistros();
+            //actualizarMaxRegistros();
         }
     }
 }

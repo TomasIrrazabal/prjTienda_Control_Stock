@@ -344,5 +344,53 @@ namespace prjTienda_Control_Stock
                 MessageBox.Show(ex.Message);
             }
         }
+        public List<Articulo> listarArticulos()
+        {
+            List<Articulo> articulos = new List<Articulo>();
+            try
+            {
+                using (conexion = new OleDbConnection(CadenaConexion))
+                {
+                    if (conexion.State != ConnectionState.Open)
+                    {
+                        conexion.Open();
+                    }
+                    string query = $"SELECT * FROM Productos";
+                    using (comando = new OleDbCommand(query, conexion))
+                    {
+                        using (OleDbDataReader lector = comando.ExecuteReader())
+                        {
+                            while (lector.Read())
+                            {
+                                Articulo producto = new Articulo()
+                                {
+                                    id = lector.GetInt32(0),
+                                    nombre = lector.GetString(1),
+                                    descripcion = lector.GetString(2),
+                                    precio = lector.GetDouble(3),
+                                    cantidad = lector.GetInt32(4),
+                                    categoria = lector.GetString(5)
+                                };
+                                articulos.Add(producto);
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if(conexion.State != ConnectionState.Closed)
+                {
+                    conexion.Close();
+                }
+            }
+             return articulos;
+        }
     }
 }
