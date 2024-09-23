@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInicio));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnTest = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.btnFrmStock = new System.Windows.Forms.Button();
             this.btnFrmArticulos = new System.Windows.Forms.Button();
             this.btnFrmBusqueda = new System.Windows.Forms.Button();
@@ -46,7 +45,6 @@
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btnTest);
-            this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.btnFrmStock);
             this.panel1.Controls.Add(this.btnFrmArticulos);
             this.panel1.Controls.Add(this.btnFrmBusqueda);
@@ -65,16 +63,6 @@
             this.btnTest.Text = "Test Base de Datos";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(246, 2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnFrmStock
             // 
@@ -145,7 +133,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnFrmStock;
         private System.Windows.Forms.Button btnFrmArticulos;
         private System.Windows.Forms.Button btnFrmBusqueda;

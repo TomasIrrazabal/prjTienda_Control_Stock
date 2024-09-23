@@ -434,13 +434,14 @@ namespace prjTienda_Control_Stock
         public string modificarArticulo(Articulo art)
         {
             string mensaje = string.Empty;
+            art.nombre = art.nombre.Replace("'", "");
             try
             {
                 using (conexion = new OleDbConnection(CadenaConexion))
                 {
                     conexion.Open();
-                    string query = $"UPDATE Productos SET nombre = {art.nombre}, descripcion = {art.descripcion}, precio = {art.precio}," +
-                            $" cantidad = {art.cantidad}, categoria = {art.categoria} WHERE id = {art.id}";
+                    string query = $"UPDATE Productos SET nombre = '{art.nombre}', descripcion = '{art.descripcion}', precio = {art.precio}," +
+                            $" stock = {art.cantidad}, categoria = '{art.categoria}' WHERE id = {art.id}";
                     using (comando = new OleDbCommand(query, conexion))
                     {
                         int filasAfectadas = comando.ExecuteNonQuery();

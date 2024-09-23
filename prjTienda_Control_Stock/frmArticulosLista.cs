@@ -21,7 +21,7 @@ namespace prjTienda_Control_Stock
             InitializeComponent();
 
             listar();
-            mostrarArticulo(1);
+            mostrarArticuloPorIndice(0);
             ControlarBoton();
         }
 
@@ -31,7 +31,7 @@ namespace prjTienda_Control_Stock
             frmBuscarId frm = new frmBuscarId();
             frm.ShowDialog();
             id = frm.valorDevuelto;
-            mostrarArticulo(id);
+            MostrarArticuloPorID(id);
             ControlarBoton();
         }
 
@@ -52,14 +52,18 @@ namespace prjTienda_Control_Stock
                 int id = int.Parse(txtCodigo.Text);
                 MostrarMensaje(db.BorrarArticulo(id.ToString()));
                 listaArticulos.Clear();
-                listaArticulos = db.listarArticulos();
-                if(id > 1)
+                listar();
+                if (indiceActual > 0)
                 {
-                    mostrarArticulo(id-1);
+                    indiceActual--;
+                }
+                if (id > 1)
+                {
+                    mostrarArticuloPorIndice(indiceActual);
                 }
                 else
                 {
-                    mostrarArticulo(1);
+                    mostrarArticuloPorIndice(1);
                 }
             }
             else
@@ -71,39 +75,43 @@ namespace prjTienda_Control_Stock
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Articulo aux = new Articulo();
-            foreach(Articulo articulo in listaArticulos)
-            {
-                if(articulo.id == int.Parse(txtCodigo.Text))
-                {
-                    aux = articulo;
-                    break;
-                }
-            }
+            Articulo aux = listaArticulos[indiceActual];
             frmCargarNuevoArticulo frm = new frmCargarNuevoArticulo(aux);
             frm.ShowDialog();
             ConexionDB db = new ConexionDB();
             string mensaje = db.modificarArticulo(frm.art);
             MostrarMensaje(mensaje);
             listar();
+            Articulo articuloAux = frm.art;
+            if (listaArticulos.Contains(articuloAux))
+            {
+                int id = Convert.ToInt32(articuloAux.id);
+                MostrarArticuloPorID(id);
+            }
+            else
+            {
+                mostrarArticuloPorIndice(indiceActual+1);
+            }
+
             
         }
         private void btnArticuloSiguiente_Click(object sender, EventArgs e)
         {
-            if(indiceActual <= indiceMaximo && indiceActual >= 1)
+            if(indiceActual < indiceMaximo)
             {
-                mostrarArticulo(indiceActual + 1);
                 indiceActual++;
+                mostrarArticuloPorIndice(indiceActual);
+                
             }
             ControlarBoton();
         }
 
         private void btnArticuloAnterior_Click(object sender, EventArgs e)
         {
-            if (indiceActual <= indiceMaximo && indiceActual >= 1)
+            if (indiceActual > 0)
             {
-                mostrarArticulo(indiceActual - 1);
                 indiceActual--;
+                mostrarArticuloPorIndice(indiceActual);
             }
             ControlarBoton();
         }
@@ -116,31 +124,51 @@ namespace prjTienda_Control_Stock
             }
             ConexionDB db = new ConexionDB();
             listaArticulos = db.listarArticulos();
-            indiceMaximo = listaArticulos.Count;
-            buscarIndice();
+            indiceMaximo = listaArticulos.Count -1;
+
         }
-        public void mostrarArticulo(int id) //fixme
+        public void MostrarArticuloPorID(int i) 
         {
-            int indice = listaArticulos.FindIndex(a => a.id == id);
+            int indice = listaArticulos.FindIndex(a => a.id == i);
             if (indice >= 0)
             {
+                indiceActual = indice;
                 txtNombre.Text = listaArticulos[indice].nombre.ToString();
                 txtCodigo.Text = listaArticulos[indice].id.ToString();
                 txtCategoria.Text = listaArticulos[indice].categoria.ToString();
                 txtCantidad.Text = listaArticulos[indice].cantidad.ToString();
                 txtPrecio.Text = "$" + listaArticulos[indice].precio.ToString();
                 rtbDescripcion.Text = listaArticulos[indice].descripcion.ToString();
-                indiceActual = indice;
             }
             else 
             {
-                if (listaArticulos[indice + 1] != null)
+                MostrarMensaje($"No se encontro articulo registrado. ");
+            }
+        }       
+        public void mostrarArticuloPorIndice(int i) 
+        {
+            if (i >= 0 && i <= listaArticulos.Count()-1)
+            {
+                txtNombre.Text = listaArticulos[i].nombre.ToString();
+                txtCodigo.Text = listaArticulos[i].id.ToString();
+                txtCategoria.Text = listaArticulos[i].categoria.ToString();
+                txtCantidad.Text = listaArticulos[i].cantidad.ToString();
+                txtPrecio.Text = "$" + listaArticulos[i].precio.ToString();
+                rtbDescripcion.Text = listaArticulos[i].descripcion.ToString();
+            }
+            else 
+            {
+                bool res = false;
+                foreach(Articulo articulo in listaArticulos)
                 {
-                    
+                    if(articulo == null)
+                    {
+                        res = true;
+                    }
                 }
-                else
+                if(res)
                 {
-                    MostrarMensaje($"No se encontro el articulo registrado en \nID: {id} ");
+                    MostrarMensaje($"No se encontro articulo registrado. ");
                 }
             }
         }
@@ -149,19 +177,7 @@ namespace prjTienda_Control_Stock
         {
             MessageBox.Show(msj,string.Empty,MessageBoxButtons.OK);
         }
-        public int buscarIndice()
-        {
-            int i = 0;
-            foreach(Articulo art in listaArticulos)
-            {
-                if(i == art.id)
-                {
-                    break;
-                }
-                i++;
-            }
-            return i;
-        }
+
         private void ControlarBoton()
         {
             if (indiceActual >= indiceMaximo)
@@ -172,13 +188,13 @@ namespace prjTienda_Control_Stock
             {
                 btnArticuloSiguiente.Enabled = true; 
             }
-            if (indiceActual <= 0)
+            if (indiceActual > 0)
             {
-                btnArticuloAnterior.Enabled = false;
+                btnArticuloAnterior.Enabled = true;
             }
             else
             {
-                btnArticuloAnterior.Enabled = true;
+                btnArticuloAnterior.Enabled = false;
             }
         }
     }

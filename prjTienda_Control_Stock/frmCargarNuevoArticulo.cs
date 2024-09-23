@@ -19,6 +19,7 @@ namespace prjTienda_Control_Stock
             InitializeComponent();
             ValoresPorDefecto();
             art = articulo;
+            MostrarArticuloRecibido(art);
             txtPrecio.KeyPress += new KeyPressEventHandler(txtPrecio_KeyPress);
             txtCantidad.KeyPress += new KeyPressEventHandler(txtCantidad_KeyPress);
         }
@@ -153,6 +154,7 @@ namespace prjTienda_Control_Stock
                 art.categoria = txtCategoria.Text;
                 art.precio = double.Parse(txtPrecio.Text);
                 art.cantidad = int.Parse(txtCantidad.Text);
+                this.Close();
             }
             else
             {
