@@ -13,10 +13,12 @@ namespace prjTienda_Control_Stock
 {
     public partial class frmCargarNuevoArticulo : Form
     {
-        public frmCargarNuevoArticulo()
+        public Articulo art { get; private set; }
+        public frmCargarNuevoArticulo(Articulo articulo)
         {
             InitializeComponent();
-            ValoresPorDefecto();            
+            ValoresPorDefecto();
+            art = articulo;
             txtPrecio.KeyPress += new KeyPressEventHandler(txtPrecio_KeyPress);
             txtCantidad.KeyPress += new KeyPressEventHandler(txtCantidad_KeyPress);
         }
@@ -116,10 +118,50 @@ namespace prjTienda_Control_Stock
             }
             return res;
         }
-
+        private void MostrarArticuloRecibido(Articulo art)
+        {
+            if(art != null)
+            {
+                btnModificar.Enabled = true;
+                btnModificar.Visible = true;
+                btnModificar.BringToFront();
+                txtNombre.Text = art.nombre;
+                txtDescripcion.Text = art.descripcion;
+                txtCategoria.Text = art.categoria;
+                txtPrecio.Text = art.precio.ToString();
+                txtCantidad.Text = art.cantidad.ToString();
+            }
+            else
+            {
+                btnCargar.Enabled = true;
+                btnCargar.Visible = true;
+                btnCargar.BringToFront();
+            }
+        }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("¿Desea aplicar los cambios?","Aviso",MessageBoxButtons.OKCancel);
+            if(res == DialogResult.OK)
+            {
+                art.nombre = txtNombre.Text;
+                art.descripcion = txtDescripcion.Text;
+                art.categoria = txtCategoria.Text;
+                art.precio = double.Parse(txtPrecio.Text);
+                art.cantidad = int.Parse(txtCantidad.Text);
+            }
+            else
+            {
+                DialogResult res2 = MessageBox.Show("¿Quiere mantener la información?", "Aviso", MessageBoxButtons.OKCancel);
+                if(DialogResult.Cancel == res2)
+                {
+                    ValoresPorDefecto();
+                }
+            }
         }
     }
 }

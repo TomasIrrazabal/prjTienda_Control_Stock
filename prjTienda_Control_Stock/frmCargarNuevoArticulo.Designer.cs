@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCargarNuevoArticulo));
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,6 +43,7 @@
             this.btnCargar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pcbImagenArticulo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -169,6 +171,16 @@
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(359, 404);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(75, 23);
+            this.btnModificar.TabIndex = 36;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
+            // 
             // frmCargarNuevoArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -176,7 +188,6 @@
             this.ClientSize = new System.Drawing.Size(457, 450);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnCancelar);
-            this.Controls.Add(this.btnCargar);
             this.Controls.Add(this.txtDescripcion);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -188,8 +199,12 @@
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.txtCategoria);
             this.Controls.Add(this.txtNombre);
+            this.Controls.Add(this.btnModificar);
+            this.Controls.Add(this.btnCargar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCargarNuevoArticulo";
-            this.Text = "frmCargarNuevoArticulo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Nuevo Articulo";
             ((System.ComponentModel.ISupportInitialize)(this.pcbImagenArticulo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -211,5 +226,6 @@
         private System.Windows.Forms.Button btnCargar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnModificar;
     }
 }

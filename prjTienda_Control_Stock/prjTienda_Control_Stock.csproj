@@ -64,17 +64,17 @@
   <ItemGroup>
     <Compile Include="Articulo.cs" />
     <Compile Include="ConexionDB.cs" />
-    <Compile Include="frmArticulos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmArticulos.Designer.cs">
-      <DependentUpon>frmArticulos.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmArticulosLista.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmArticulosLista.Designer.cs">
       <DependentUpon>frmArticulosLista.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBuscarId.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBuscarId.Designer.cs">
+      <DependentUpon>frmBuscarId.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmBusqueda.cs">
       <SubType>Form</SubType>
@@ -102,11 +102,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmArticulos.resx">
-      <DependentUpon>frmArticulos.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmArticulosLista.resx">
       <DependentUpon>frmArticulosLista.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBuscarId.resx">
+      <DependentUpon>frmBuscarId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmBusqueda.resx">
       <DependentUpon>FrmBusqueda.cs</DependentUpon>

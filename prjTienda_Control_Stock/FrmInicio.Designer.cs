@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInicio));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnTest = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -130,7 +131,9 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.gbAvisoStock);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmInicio";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "inicio";
             this.panel1.ResumeLayout(false);
             this.gbAvisoStock.ResumeLayout(false);

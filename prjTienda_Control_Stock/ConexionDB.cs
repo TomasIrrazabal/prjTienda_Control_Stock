@@ -241,7 +241,7 @@ namespace prjTienda_Control_Stock
             return mensaje;
         }
 
-        public Articulo cargarArticulo (int codigo)
+        public Articulo CargarArticulo (int codigo)
         {
             Articulo articulo = new Articulo();
             try
@@ -260,13 +260,12 @@ namespace prjTienda_Control_Stock
                         {
                             using (OleDbDataReader lector = comando.ExecuteReader())
                             {
-
                                 if (lector.Read())
                                 {
-                                    articulo.id = !lector.IsDBNull(0) ? lector.GetInt32(0) : 0; // Asumiendo que id es un entero.
+                                    articulo.id = !lector.IsDBNull(0) ? lector.GetInt32(0) : 0; 
                                     articulo.nombre = !lector.IsDBNull(1) ? lector.GetString(1) : string.Empty;
                                     articulo.descripcion = !lector.IsDBNull(2) ? lector.GetString(2) : string.Empty;
-                                    articulo.precio = !lector.IsDBNull(3) ? lector.GetDouble(3) : 0.0; // Asegúrate de que precio sea un tipo numérico.
+                                    articulo.precio = !lector.IsDBNull(3) ? lector.GetDouble(3) : 0.0; 
                                     articulo.cantidad = !lector.IsDBNull(4) ? lector.GetInt32(4) : 0;
                                     articulo.categoria = !lector.IsDBNull(5) ? lector.GetString(5) : string.Empty;
                                 }
@@ -362,6 +361,7 @@ namespace prjTienda_Control_Stock
                         {
                             while (lector.Read())
                             {
+
                                 Articulo producto = new Articulo()
                                 {
                                     id = lector.GetInt32(0),
@@ -371,7 +371,10 @@ namespace prjTienda_Control_Stock
                                     cantidad = lector.GetInt32(4),
                                     categoria = lector.GetString(5)
                                 };
-                                articulos.Add(producto);
+                                if(producto != null)
+                                {
+                                    articulos.Add(producto);
+                                }
                             }
 
                         }
@@ -391,6 +394,79 @@ namespace prjTienda_Control_Stock
                 }
             }
              return articulos;
+        }
+        public string BorrarArticulo(string id)
+        {
+            string mensaje = string.Empty;
+            try
+            {
+                using (conexion = new OleDbConnection(CadenaConexion))
+                {
+                    conexion.Open();
+                    string query = $"DELETE FROM Productos WHERE id = {id}";
+                    using(comando = new OleDbCommand(query, conexion))
+                    {
+                        int filasAfectadas = comando.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            mensaje = "Registro eliminado correctamente.";
+                        }
+                        else
+                        {
+                            mensaje = "No se encontró ningún registro con ese ID.";
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return mensaje;
+        }
+        public string modificarArticulo(Articulo art)
+        {
+            string mensaje = string.Empty;
+            try
+            {
+                using (conexion = new OleDbConnection(CadenaConexion))
+                {
+                    conexion.Open();
+                    string query = $"UPDATE Productos SET nombre = {art.nombre}, descripcion = {art.descripcion}, precio = {art.precio}," +
+                            $" cantidad = {art.cantidad}, categoria = {art.categoria} WHERE id = {art.id}";
+                    using (comando = new OleDbCommand(query, conexion))
+                    {
+                        int filasAfectadas = comando.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            mensaje = "Se actualizó el registro correctamente.";
+                        }
+                        else
+                        {
+                            mensaje = "No se encontró ningún registro para actualizar.";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = ex.Message;
+            }
+            finally
+            {
+                if(conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return mensaje; 
         }
     }
 }

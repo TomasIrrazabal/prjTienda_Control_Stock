@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBusqueda));
             this.dgvProductos = new System.Windows.Forms.DataGridView();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.btnBuscarProd = new System.Windows.Forms.Button();
@@ -168,8 +169,10 @@
             this.Controls.Add(this.gbModificar);
             this.Controls.Add(this.dgvProductos);
             this.Controls.Add(this.gbBusqueda);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmBusqueda";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Busqueda y Modificación";
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             this.gbBusqueda.ResumeLayout(false);
             this.gbBusqueda.PerformLayout();

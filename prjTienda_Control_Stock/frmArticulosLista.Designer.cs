@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmArticulosLista));
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBorrar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
@@ -154,6 +155,7 @@
             // 
             // rtbDescripcion
             // 
+            this.rtbDescripcion.Enabled = false;
             this.rtbDescripcion.Location = new System.Drawing.Point(8, 222);
             this.rtbDescripcion.Name = "rtbDescripcion";
             this.rtbDescripcion.Size = new System.Drawing.Size(438, 162);
@@ -191,6 +193,7 @@
             // 
             // txtCodigo
             // 
+            this.txtCodigo.Enabled = false;
             this.txtCodigo.Location = new System.Drawing.Point(153, 27);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(48, 20);
@@ -244,7 +247,9 @@
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.txtCategoria);
             this.Controls.Add(this.txtNombre);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmArticulosLista";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmArticulosLista";
             ((System.ComponentModel.ISupportInitialize)(this.pcbImagenArticulo)).EndInit();
             this.ResumeLayout(false);
